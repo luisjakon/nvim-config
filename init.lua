@@ -91,6 +91,21 @@ if pcall(require, "lazy") then
 	require("lazy").setup({
 		-- { "ishan9299/nvim-solarized-lua" },
 		{
+			"askfiy/visual_studio_code",
+			priority = 100,
+			config = function()
+				-- vim.cmd([[colorscheme visual_studio_code]])
+				require("visual_studio_code").setup({
+					-- `dark` or `light`
+					mode = "light",
+					-- Whether to load all color schemes
+					preset = true,
+					-- Whether to enable background transparency
+					transparent = false,
+				})
+			end,
+		},
+		{
 			"folke/tokyonight.nvim",
 			lazy = false,
 			priority = 1000,
@@ -242,6 +257,11 @@ if pcall(require, "lazy") then
 								text_align = "center",
 								separator = true,
 							},
+						},
+						themable = true,
+						close_icon = "",
+						custom_areas = {
+							right = require("visual_studio_code").get_bufferline_right(),
 						},
 					},
 				})

@@ -85,6 +85,7 @@ local function load_neotree()
 			},
 		},
 		filesystem = {
+
 			filtered_items = {
 				visible = false, -- when true, they will just be displayed differently than normal items
 				hide_dotfiles = false,
@@ -108,7 +109,11 @@ local function load_neotree()
 					".null-ls_*",
 				},
 			},
-			-- follow_current_file = true, -- This will find and focus the file in the active buffer every
+			follow_current_file = false, -- This will find and focus the file in the active buffer every
+			-- follow_current_file = {
+			-- 	enabled = true,
+			-- 	leave_dirs_open = true,
+			-- },
 			-- time the current file is changed while the tree is open.
 			group_empty_dirs = false, -- when true, empty folders will be grouped together
 			hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
@@ -141,6 +146,7 @@ local function load_neotree()
 				end,
 			}, -- follow_current_file = true, -- This will find and focus the file in the active buffer every
 			-- time the current file is changed while the tree is open.
+			-- follow_current_file = false, -- This will find and focus the file in the active buffer every
 			group_empty_dirs = true, -- when true, empty folders will be grouped together
 			show_unloaded = true,
 			window = {
@@ -312,6 +318,14 @@ local function load_indent_blankline()
 			-- show_current_context_start = false,
 			-- use_treesitter = true,
 			-- use_treesitter_scope = true,
+			indent = {
+				char = "▏",
+			},
+			scope = {
+				show_start = false,
+				show_end = false,
+				highlight = { "Function", "Label" },
+			},
 		})
 		-- vim.cmd([[
 		--           highlight IndentBlanklineContextChar guifg=#6d6f79 gui=nocombine

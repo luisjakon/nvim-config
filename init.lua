@@ -89,22 +89,6 @@ vim.opt.rtp:prepend(lazypath)
 
 if pcall(require, "lazy") then
 	require("lazy").setup({
-		-- { "ishan9299/nvim-solarized-lua" },
-		{
-			"askfiy/visual_studio_code",
-			priority = 100,
-			config = function()
-				-- vim.cmd([[colorscheme visual_studio_code]])
-				require("visual_studio_code").setup({
-					-- `dark` or `light`
-					mode = "light",
-					-- Whether to load all color schemes
-					preset = true,
-					-- Whether to enable background transparency
-					transparent = false,
-				})
-			end,
-		},
 		{
 			"folke/tokyonight.nvim",
 			lazy = false,
@@ -260,9 +244,6 @@ if pcall(require, "lazy") then
 						},
 						themable = true,
 						close_icon = "",
-						custom_areas = {
-							right = require("visual_studio_code").get_bufferline_right(),
-						},
 					},
 				})
 			end,
@@ -323,9 +304,10 @@ if pcall(require, "lazy") then
 			event = "BufEnter",
 			dependencies = {
 				"nvim-lua/plenary.nvim",
-				"ahmedkhalf/project.nvim",
+				-- "ahmedkhalf/project.nvim",
 				{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 				{ "nvim-telescope/telescope-file-browser.nvim" },
+				{ "nvim-telescope/telescope-project.nvim" },
 				{ "nvim-telescope/telescope-ui-select.nvim" },
 				{
 					"Shatur/neovim-session-manager",
@@ -438,6 +420,19 @@ if pcall(require, "lazy") then
 			},
 			config = function()
 				plugins.load_treesitter()
+			end,
+		},
+		-- https://github.com/nvim-treesitter/nvim-treesitter-context
+		{
+			"nvim-treesitter/nvim-treesitter-context",
+			dependencies = {
+				"nvim-treesitter/nvim-treesitter",
+			},
+			config = function()
+				require("treesitter-context").setup({
+					enable = true,
+					max_lines = 2,
+				})
 			end,
 		},
 		{

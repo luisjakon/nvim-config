@@ -93,6 +93,7 @@ local function load_neotree()
 				hide_hidden = false, -- only works on Windows for hidden files/directories
 				hide_by_name = {
 					"node_modules",
+					".git",
 				},
 				hide_by_pattern = { -- uses glob style patterns
 					"*.meta",
@@ -109,7 +110,7 @@ local function load_neotree()
 					".null-ls_*",
 				},
 			},
-			follow_current_file = false, -- This will find and focus the file in the active buffer every
+			-- follow_current_file = false, -- This will find and focus the file in the active buffer every
 			-- follow_current_file = {
 			-- 	enabled = true,
 			-- 	leave_dirs_open = true,
@@ -125,6 +126,7 @@ local function load_neotree()
 			-- instead of relying on nvim autocmd events.
 			window = {
 				mappings = {
+					["<leftrelease>"] = "open",
 					["<bs>"] = "navigate_up",
 					["."] = "set_root",
 					["H"] = "toggle_hidden",
@@ -138,15 +140,8 @@ local function load_neotree()
 			},
 		},
 		buffers = {
-			{
-				"ggandor/leap.nvim",
-				name = "leap",
-				config = function()
-					require("leap").add_default_mappings()
-				end,
-			}, -- follow_current_file = true, -- This will find and focus the file in the active buffer every
-			-- time the current file is changed while the tree is open.
-			-- follow_current_file = false, -- This will find and focus the file in the active buffer every
+
+			follow_current_file = false, -- This will find and focus the file in the active buffer every
 			group_empty_dirs = true, -- when true, empty folders will be grouped together
 			show_unloaded = true,
 			window = {
@@ -182,18 +177,19 @@ local function load_neotree()
 			--  },
 			--
 			-- },
-			{
-				event = require("neo-tree.events").NEO_TREE_BUFFER_ENTER,
-				handler = function()
-					vim.cmd("stopinsert")
-				end,
-			},
+			-- {
+			-- 	event = require("neo-tree.events").NEO_TREE_BUFFER_ENTER,
+			-- 	handler = function()
+			-- 		vim.cmd("stopinsert")
+			-- 	end,
+			-- },
 		},
 	})
 end
 
 local function load_telescope()
-	if pcall(require, "telescope") and pcall(require, "project_nvim") then
+	-- if pcall(require, "telescope") and pcall(require, "project_nvim") then
+	if pcall(require, "telescope") then
 		require("telescope").setup({
 			defaults = {
 				vimgrep_arguments = {
@@ -247,15 +243,15 @@ local function load_telescope()
 				},
 			},
 		})
-		require("project_nvim").setup({
-			detection_methods = { "pattern", "lsp" },
-			patterns = { ".git", "Makefile", "package.json", "Cargo.toml", "go.mod" },
-			exclude_dirs = { "~/.cargo", "node_modules" },
-		})
+		-- require("project_nvim").setup({
+		-- 	detection_methods = { "pattern", "lsp" },
+		-- 	patterns = { ".git", "Makefile", "package.json", "Cargo.toml", "go.mod" },
+		-- 	exclude_dirs = { "~/.cargo", "node_modules" },
+		-- })
 
 		require("telescope").load_extension("file_browser")
 		require("telescope").load_extension("ui-select")
-		require("telescope").load_extension("projects")
+		require("telescope").load_extension("project")
 		require("telescope").load_extension("fzf")
 		require("telescope").load_extension("notify")
 		require("telescope").load_extension("refactoring")

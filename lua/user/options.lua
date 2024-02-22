@@ -91,7 +91,7 @@ vim.o.foldenable = true
 --  foldclose = "",
 -- })
 --
-vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:❯]]
 
 -- edit
 vim.opt.spelllang = "en,pt"

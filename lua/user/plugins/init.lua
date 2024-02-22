@@ -1,4 +1,26 @@
 -- Plugins configurations
+--
+local function load_tokyonight()
+	vim.cmd.colorscheme("tokyonight-night")
+	vim.cmd([[
+	hi WinSeparator guifg=#3b4261
+	]])
+	-- vim.cmd.colorscheme("tokyonight-day")
+	require("tokyonight").setup({
+		style = "night",
+		-- day_brightness = 0.95,
+		-- on_colors = function(colors)
+		-- 	-- colors.bg = "#0e0e0e"
+		-- 	colors.bg_dark = "#1d202f"
+		-- 	-- colors.bg = "#1d202f"
+		-- 	colors.bg = "#171826"
+		-- end,
+		on_highlights = function(hl, c)
+			hl.WinSeparator = { fg = c.fg_gutter, bg = c.fg_gutter }
+		end,
+	})
+end
+
 local function load_wilder_menu()
 	local wilder = require("wilder")
 	wilder.setup({ modes = { ":", "/", "?" } })
@@ -190,6 +212,8 @@ end
 local function load_telescope()
 	-- if pcall(require, "telescope") and pcall(require, "project_nvim") then
 	if pcall(require, "telescope") then
+		local icons = require("nvim-nonicons")
+
 		require("telescope").setup({
 			defaults = {
 				vimgrep_arguments = {
@@ -201,7 +225,10 @@ local function load_telescope()
 					"--column",
 					"--smart-case",
 				},
-				path_display = { "smart" },
+				prompt_prefix = "  " .. icons.get("telescope") .. "  ",
+				-- path_display = { shorten = { len = 3, exclude = { 4, -2, -1 } } },
+				-- path_display = { "smart" },
+				path_display = { "absolute" },
 				file_sorter = require("telescope.sorters").get_fuzzy_file,
 				file_ignore_patterns = { "node_modules", "^./.git/", "dist/", "build/", "target" },
 				generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
@@ -293,6 +320,10 @@ local function load_lualine()
 				return "onedark"
 			end
 		end
+
+		local icons = require("nvim-nonicons")
+		local nonicons_extention = require("nvim-nonicons.extentions.lualine")
+
 		require("lualine").setup({
 			options = { theme = themeOpt(), globalstatus = true, section_separators = "", component_separators = "" },
 			sections = {
@@ -320,7 +351,7 @@ local function load_indent_blankline()
 			scope = {
 				show_start = false,
 				show_end = false,
-				highlight = { "Function", "Label" },
+				-- highlight = { "Function", "Label" },
 			},
 		})
 		-- vim.cmd([[
@@ -1589,21 +1620,130 @@ local function load_whichkey()
 	end
 end
 
+local function load_alpha()
+	vim.cmd("let g:indentLine_fileTypeExclude = ['alpha']")
+	vim.cmd("autocmd User AlphaReady set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2")
+	require("alpha").setup(require("alpha.themes.dashboard").config)
+end
+
+local function load_winsep()
+	require("colorful-winsep").setup({
+		highlight = {
+			-- bg = "#16161E",
+			fg = "#626780",
+		},
+		symbols = { "─", "│", "┌", "┐", "└", "┘" },
+	})
+end
+
+local function load_true_zen()
+	require("true-zen").setup({
+		focus = {
+			callbacks = {
+				open_pos = function()
+					-- folding
+					vim.o.foldlevel = 99
+					vim.o.foldlevelstart = 99
+					vim.o.foldcolumn = "1"
+					vim.o.foldenable = true
+					vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+				end,
+			},
+		},
+	})
+end
+
+local function load_bufferline()
+	require("bufferline").setup({
+		options = {
+			separator_style = "thin",
+			offsets = {
+				{
+					filetype = "neo-tree",
+					text = "File Explorer",
+					text_align = "center",
+					separator = true,
+				},
+			},
+			themable = true,
+			close_icon = "",
+		},
+	})
+end
+
+local function load_scrollview()
+	require("scrollview").setup({
+		current_only = true,
+		winblend = 50,
+	})
+end
+
+local function load_lsp_saga()
+	require("lspsaga").setup({
+		ui = {
+			code_action = "",
+		},
+		lightbulb = {
+			enable = true,
+			enable_in_insert = true,
+			sign = false,
+			sign_priority = 40,
+			virtual_text = true,
+		},
+	})
+end
+
+local function load_neotest()
+	-- get neotest namespace (api call creates or returns namespace)
+	local neotest_ns = vim.api.nvim_create_namespace("neotest")
+	vim.diagnostic.config({
+		virtual_text = {
+			format = function(diagnostic)
+				local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+				return message
+			end,
+		},
+	}, neotest_ns)
+	require("neotest").setup({
+		consumers = {
+			overseer = require("neotest.consumers.overseer"),
+		},
+		overseer = {
+			enabled = true,
+			-- When this is true (the default), it will replace all neotest.run.* commands
+			force_default = false,
+		},
+		adapters = {
+			require("neotest-rust"),
+			require("neotest-go"),
+		},
+	})
+end
+
+local function load_ufo() end
 local M = {
+	load_alpha = load_alpha,
+	load_tokyonight = load_tokyonight,
+	load_winsep = load_winsep,
+	load_true_zen = load_true_zen,
 	load_wilder_menu = load_wilder_menu,
 	load_neotree = load_neotree,
 	load_telescope = load_telescope,
+	load_bufferline = load_bufferline,
 	load_lualine = load_lualine,
 	load_indent_blankline = load_indent_blankline,
+	load_scrollview = load_scrollview,
 	load_comment = load_comment,
 	load_autotag = load_autotag,
 	load_autopairs = load_autopairs,
 	load_treesitter = load_treesitter,
 	load_lsp = load_lsp,
+	load_lsp_saga = load_lsp_saga,
 	load_cmp = load_cmp,
 	load_null_ls = load_null_ls,
 	load_dap = load_dap,
 	load_dapui = load_dapui,
+	load_neotest = load_neotest,
 	load_gitsigns = load_gitsigns,
 	load_goto_preview = load_goto_preview,
 	load_whichkey = load_whichkey,

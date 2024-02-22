@@ -48,7 +48,8 @@
   "nvim-dap-ui": { "branch": "master", "commit": "9720eb5fa2f41988e8770f973cd11b76dd568a5d" },
   "nvim-dap-virtual-text": { "branch": "master", "commit": "d4542ac257d3c7ee4131350db6179ae6340ce40b" },
   "nvim-dap-vscode-js": { "branch": "main", "commit": "03bd29672d7fab5e515fc8469b7d07cc5994bbf6" },
-  "nvim-lspconfig": { "branch": "master", "commit": "aa199c5bbdbb7fd28b56212a89206f13db02799e" },
+  "nvim-lspconfig": { "branch": "master", "commit": "303f3b325cb23a0080e40c21628d555f9f91eeea" },
+  "nvim-nonicons": { "branch": "main", "commit": "ceda07dc7339f35444b5f4c4016f76a9eb42ac16" },
   "nvim-notify": { "branch": "master", "commit": "5371f4bfc1f6d3adf4fe9d62cd3a9d44356bfd15" },
   "nvim-remote-containers": { "branch": "master", "commit": "73c2cbc59b69b4026682aea6bab225831fb8eaa4" },
   "nvim-scrollview": { "branch": "main", "commit": "7ef112edde3355cb50c3b7bf1e8909c8d2bc3186" },
@@ -82,9 +83,8 @@
   "typescript.nvim": { "branch": "main", "commit": "4de85ef699d7e6010528dcfbddc2ed4c2c421467" },
   "vim-illuminate": { "branch": "master", "commit": "305bf07b919ac526deb5193280379e2f8b599926" },
   "vim-visual-multi": { "branch": "master", "commit": "cff14071098de5279743b009c496303995fe4df9" },
-  "visual_studio_code": { "branch": "master", "commit": "d185c6d75e577aedda9bb9dcc8b8b4b410b540dd" },
   "vs-tasks.nvim": { "branch": "main", "commit": "5a5d9e5959c8abadb6f979e88a1366c7ac51b876" },
-  "vscode-js-debug": { "branch": "main", "commit": "1c26f2fb875eca49cbc75564fde6637ce3c1cf01" },
+  "vscode-js-debug": { "branch": "main", "commit": "19cd30297dc05b7a7fa9d1d02a8e9dfc1749362e" },
   "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" },
   "wilder.nvim": { "branch": "master", "commit": "679f348dc90d80ff9ba0e7c470c40a4d038dcecf" }
 }
